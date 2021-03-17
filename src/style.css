@@ -1,0 +1,208 @@
+:root {
+  --primary-color: hsl(29, 97%, 45%);
+  --darken-primary-color: hsl(29, 97%, 25%);
+  --lighten-primary-color: hsl(29, 97%, 63%);
+  --secondary-color: hsl(189, 71%, 40%);
+  --darken-secondary-color: hsl(189, 97%, 20%);
+  --lighten-secondary-color: hsl(189, 97%, 53%);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  color: white;
+  font-family: sans-serif;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  height: 100vh;
+  min-width: 500px;
+}
+
+/* HEADER */
+header {
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 3px;
+  background: var(--primary-color);
+  box-shadow: 0 3px 2px var(--darken-secondary-color);
+}
+header .logo img {
+  width: 70px;
+}
+
+main {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 320px;
+  gap: 0 2px;
+  grid-template-areas:  "pizzas pizzas pizzas"
+                        "details details cart";
+}
+#home, #admin {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-top: 30px;
+}
+  #home h1 {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0.5px 0.5px 0 #eee,
+                  1px 1px 0 #ccc,
+                  1.5px 1.5px #999,
+                  2px 2px 0 #777,
+                  2.5px 2.5px 0 #555;
+  }
+  #home a {
+    text-decoration: none;
+    padding: 10px;
+    color: var(--primary-color);
+    border: 1px solid white;
+    border-radius: 5px;
+    margin-top: 20px;
+    display: inline-block;
+  }
+.pizzas.slider {
+  grid-area: pizzas;
+  overflow: hidden;
+}
+  .slides {
+    position: relative;
+    height: 100%;
+    left: 0;
+    width: calc(100% * 3);
+    transition: left .5s ease-in-out;
+  }
+  .pizza {
+    height: 100%;
+    position: relative;
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% / 3);
+    background: url('./assets/img/bg-pizza.jpg') center no-repeat;
+    background-size: cover;
+  }
+  .pizza h1 {
+    user-select: none;
+    text-emphasis: uppercase;
+    text-shadow: 0 2px 2px var(--darken-secondary-color),
+                 -1px 0 2px var(--darken-secondary-color),
+                 0 -1px 2px var(--darken-primary-color),
+                 1px 0 2px var(--darken-primary-color);
+  }
+  .pizza .controls .prev,
+  .pizza .controls .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: 0;
+    transform: translateY(-50%);
+  }
+  .pizza .controls .prev {
+    left: 20px;
+    border-top: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    border-right: 30px solid var(--secondary-color);
+    box-shadow: 4px 0 0 var(--primary-color);
+  }
+  .pizza .controls .next {
+    right: 20px;
+    border-top: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    border-left: 30px solid var(--secondary-color);
+    box-shadow: -4px 0 0 var(--primary-color);
+  }
+
+.details {
+  grid-area: details;
+  display: grid;
+  grid-template-columns: 1fr 70px;
+  background: var(--secondary-color);
+  font-size: 0.8rem;
+  padding: 5px;
+}
+  .details h2 {
+    grid-column: 1 / -1;
+    grid-row: 1 / 2;
+    text-align: center;
+    text-shadow: 0 0 1px var(--darken-secondary-color);
+    letter-spacing: 3px;
+    color: var(--darken-secondary-color);
+  }
+  .details h2::first-letter {
+    text-transform: uppercase;
+  }
+  .details .add-to-cart {
+    grid-column: 2 / -1;
+    grid-row: 1 / 2;
+    background: url('./assets/img/cart.png') center no-repeat;
+    background-size: contain;
+    width: 40px;
+    height: 40px;
+    margin-left: 30px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
+  .details p {
+    grid-column: 1 / 2;
+  }
+.cart {
+  grid-area: cart;
+  background: var(--secondary-color);
+  font-size: 0.8rem;
+  padding: 5px;
+  text-align: center;
+}
+  .cart h1 {
+    text-shadow: 0 0 3px var(--darken-secondary-color);
+  }
+  .cart h1, .cart p {
+    text-align: center;
+  }
+  .cart p:not(:first-of-type)::before {
+    content: "▷";
+  }
+
+/* FOOTER */
+footer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas:  "menu about infos"
+                        ". admin .";
+  padding: 30px;
+  font-size: 0.7rem;
+  background: var(--primary-color);
+  box-shadow: 0 -3px 2px var(--darken-secondary-color);
+}
+footer p {
+  cursor: pointer;
+}
+footer .menu { grid-area: menu; }
+footer .about { grid-area: about; }
+footer .infos { grid-area: infos; }
+footer .admin {
+  position: relative;
+  grid-area: admin;
+  margin-top: 20px;
+  text-align: center;
+}
+footer .admin::before {
+  content: "🔐 ";
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+footer .admin a {
+  cursor: pointer;
+  color: var(--darken-secondary-color);
+}
+footer .admin a:hover {
+  color: var(--secondary-color);
+}
