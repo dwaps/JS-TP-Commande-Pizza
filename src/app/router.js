@@ -1,17 +1,20 @@
 export default class Router {
-  static run() {
-    switch (location.hash.substr('1')) {
-      case 'home':
-        console.log('Afficher la vue home.html');
-        break;
-      case 'admin':
-        console.log('Afficher la vue admin.html');
-        break;
-      case 'order-pizza':
-        console.log('Afficher la vue order-pizza.html');
-        break;
-      default:
-        console.log('Afficher une page d\'erreur');
+  static run(app) {
+    if (location.hash) {
+      switch (location.hash.substr('1')) {
+        case 'home':
+          app.goTo('home');
+          break;
+        case 'admin':
+          app.goTo('admin');
+          break;
+        case 'order-pizza':
+          app.goTo('order-pizza');
+          break;
+      }
+    }
+    else {
+      app.goTo('home');
     }
   }
 }

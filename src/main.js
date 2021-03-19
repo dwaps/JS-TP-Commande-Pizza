@@ -1,3 +1,5 @@
-import Router from "./app/router.js";
+import Router from './app/router.js';
+import App from './app/app.js';
 
-Router.run();
+const app = new App();
+Router.run(app);
