@@ -3,3 +3,7 @@ import App from './app/app.js';
 
 const app = new App();
 Router.run(app);
+
+window.addEventListener('hashchange', () => {
+  Router.run(app);
+});
