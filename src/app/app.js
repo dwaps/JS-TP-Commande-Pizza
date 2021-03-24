@@ -40,7 +40,7 @@ export default class App {
       .then(res => res.json())
       .then(dataReceived => {
         if (dataReceived.pizzas && Array.isArray(dataReceived.pizzas)) {
-          // pizzas.length = 3;
+          dataReceived.pizzas.length = 3;
           const nbOfPizzasReceived = dataReceived.pizzas.length;
           this.slidesTag.style.width = (nbOfPizzasReceived*window.innerWidth) + 'px';
           dataReceived.pizzas.forEach(
@@ -62,6 +62,36 @@ export default class App {
     pizzaTag.innerHTML = pizzaInstance.html;
 
     this.slidesTag.appendChild(pizzaTag);
+    this.configureNavigation(pizzaTag, pizzaInstance);
+  }
+
+  configureNavigation(pizzaTag, pizzaInstance) {
+    const isFirstPizza = pizzaInstance.id === this.pizzas[0].id;
+    const isLastPizza = pizzaInstance.id === this.pizzas[this.pizzas.length-1].id;
+    const btPrevTag = pizzaTag.querySelector('.prev');
+    const btNextTag = pizzaTag.querySelector('.next');
+
+    if (!isFirstPizza) {
+      btPrevTag.addEventListener('click', () => {
+        const slidesTagLeft = parseInt(this.slidesTag.style.left) || 0;
+        const offsetLeft = slidesTagLeft + window.innerWidth;
+        this.slidesTag.style.left = offsetLeft + 'px';
+      });
+    }
+    else {
+      btPrevTag.style.display = 'none';
+    }
+
+    if (!isLastPizza) {
+      btNextTag.addEventListener('click', () => {
+        const slidesTagLeft = parseInt(this.slidesTag.style.left) || 0;
+        const offsetLeft = slidesTagLeft - window.innerWidth;
+        this.slidesTag.style.left = offsetLeft + 'px';
+      });
+    }
+    else {
+      btNextTag.style.display = 'none';
+    }
   }
 
   updateDetails() {
