@@ -38,7 +38,10 @@ export default class App {
       .then(res => res.json())
       .then(data => {
         const pizzas = data.pizzas;
-        if (pizzas) {
+        if (pizzas && Array.isArray(pizzas)) {
+          console.log(pizzas[0])
+          // pizzas.length = 3;
+          this.slidesTag.style.width = (pizzas.length*window.innerWidth) + 'px';
           pizzas.forEach(this.createPizzaTag.bind(this));
         }
       });
