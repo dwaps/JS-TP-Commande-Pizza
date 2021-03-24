@@ -1,5 +1,5 @@
 export default class Pizza {
-  constructor(id, name, category, ingredients, price) {
+  constructor({id, name, category, ingredients, price}, displayed) {
     this.id = id;
     this.name = name;
     this.category = category;
@@ -14,6 +14,6 @@ export default class Pizza {
         <div class="next"></div>
       </div>
     `;
-    this.state = { displayed: false };
+    this.state = { displayed };
   }
 }

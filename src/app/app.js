@@ -1,8 +1,10 @@
 import { environment } from '../environment.js';
+import Pizza from '../models/pizza.js';
 
 export default class App {
   constructor() {
     this.contentPage = "";
+    this.pizzas = [];
 
     this.slidesTag = null;
     this.detailsTag = null;
@@ -36,29 +38,38 @@ export default class App {
 
     await fetch(environment.urlApi)
       .then(res => res.json())
-      .then(data => {
-        const pizzas = data.pizzas;
-        if (pizzas && Array.isArray(pizzas)) {
-          console.log(pizzas[0])
+      .then(dataReceived => {
+        if (dataReceived.pizzas && Array.isArray(dataReceived.pizzas)) {
           // pizzas.length = 3;
-          this.slidesTag.style.width = (pizzas.length*window.innerWidth) + 'px';
-          pizzas.forEach(this.createPizzaTag.bind(this));
+          const nbOfPizzasReceived = dataReceived.pizzas.length;
+          this.slidesTag.style.width = (nbOfPizzasReceived*window.innerWidth) + 'px';
+          dataReceived.pizzas.forEach(
+            (pizzaFromServer, index) => {
+              this.pizzas.push(new Pizza(pizzaFromServer, (index === 0)));
+            }
+          );
+          this.pizzas.forEach(this.createPizzaTag.bind(this));
+          this.updateDetails();
         }
       });
   }
 
-  createPizzaTag(pizza) {
+  createPizzaTag(pizzaInstance) {
     const pizzaTag = document.createElement('div');
 
-    pizzaTag.className = 'pizza';
-    pizzaTag.innerHTML = `
-      <h1>${pizza.name}</h1>
-      <div class="controls">
-        <div class="prev"></div>
-        <div class="next"></div>
-      </div>
-    `;
+    pizzaTag.className = pizzaInstance.className;
+    pizzaTag.style.width = pizzaInstance.width;
+    pizzaTag.innerHTML = pizzaInstance.html;
 
     this.slidesTag.appendChild(pizzaTag);
+  }
+
+  updateDetails() {
+    const displayedPizza = this.pizzas.find(p => p.state.displayed);
+    this.detailsTag.querySelector('h2').innerText = displayedPizza.name;
+    const infos = this.detailsTag.querySelectorAll('span');
+    infos[0].innerText = displayedPizza.category;
+    infos[1].innerText = displayedPizza.ingredients.join(', ');
+    infos[2].innerText = displayedPizza.price.toFixed(2);
   }
 }
